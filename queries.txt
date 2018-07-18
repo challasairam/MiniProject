@@ -624,3 +624,147 @@ if (user.getRole() == "Admin") {
 						view.addObject("msg", msg);
 					}
 				}
+				-----------------------------
+				<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<style>
+* {box-sizing: border-box}
+/* Set height of body and the document to 100% */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial;
+}
+/* Style tab links */
+.tablink {
+    background-color: #555;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 25%;
+}
+.tablink:hover {
+    background-color: #777;
+}
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: white;
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+}
+#ViewListofHotels {background-color: red;}
+#Bookaroom{background-color: green;}
+#CheckBookingStatus {background-color: blue;}
+#Logout {background-color: orange;}
+</style>
+</head>
+<body>
+
+<button class="tablink" onclick="openPage('ViewListofHotels', this, 'red')" id="defaultOpen">View List of Hotels</button>
+<button class="tablink" onclick="openPage('Bookaroom', this, 'green')">Book a room</button>
+<button class="tablink" onclick="openPage('CheckBookingStatus', this, 'blue')">Check Booking Status</button>
+<button class="tablink" onclick="openPage('Logout', this, 'orange')">Logout</button>
+
+<div id="ViewListofHotels" class="tabcontent">
+ 
+ <h1>Available Hotel details</h1>
+ <table border="2">
+              
+              <c:forEach items="${hotelList}" var="e">
+                     <tr>
+                     <th>Hotel Id</th>
+                     <th>City</th>
+                     <th>Hotel Name</th>
+                     <th>Address</th>
+                     <th>Description</th>
+                     <th>Average Rate Per Night</th>
+                     <th>Phone No.1</th>
+                     <th>Phone No.2</th>
+                     <th>Rating</th>
+                     <th>Email Id</th>
+                      <th>FAX</th>
+                     
+              </tr>
+                     <tr>
+                           <td><c:out value="${e.hotelId}"></c:out></td>
+                           <td><c:out value="${e.city}"></c:out></td>
+                           <td><c:out value="${e.hotelName}"></c:out></td>
+                           <td><c:out value="${e.address}"></c:out></td>
+                           <td><c:out value="${e.description}"></c:out></td>
+                           <td><c:out value="${e.ratePerNight}"></c:out></td>
+                           <td><c:out value="${e.phoneNo1}"></c:out></td>
+                           <td><c:out value="${e.phoneNo2}"></c:out></td>
+               			    <td><c:out value="${e.rating}"></c:out></td>
+                           <td><c:out value="${e.email}"></c:out></td>
+                           <td><c:out value="${e.fax}"></c:out></td>
+               			     
+                     </tr>
+                     
+              </c:forEach>
+              
+              </table>
+ 
+</div>
+
+<div id="Bookaroom" class="tabcontent">
+  <h3>Booking</h3>
+  <form:form action="" method="" modelAttribute="">
+ <form:input path="hotelId"/>
+ <form:errors path="hotelId">
+ <input type="submit" name="search" value="Search">
+ </form:errors>
+ </form:form>
+ <h1>Available room details</h1>
+ <table border="2">
+              
+              <c:forEach items="${single}" var="e">
+                     <tr>
+                     <th>Hotel Id</th>
+                     <th>Room Id</th>
+                     <th>Room No</th>
+                     <th>Room Type</th>
+                     <th>Per Night rate</th>
+                     <th>Availability</th>
+                     
+              </tr>
+                     <tr>
+                           <td><input type="hidden" name="hotelId" value="${e.hotelId}"><c:out value="${e.hotelId}"></c:out></td>
+                           <td><input type="hidden" name="roomId" value="${e.roomId}"><c:out value="${e.roomId}"></c:out></td>
+                           <td><input type="hidden" name="roomNo" value="${e.roomNo}"><c:out value="${e.roomNo}"></c:out></td>
+                           <td><input type="hidden" name="roomType" value="${e.roomType}"><c:out value="${e.roomType}"></c:out></td>
+                           <td><input type="hidden" name="perNightRate" value="${e.perNightRate}"><c:out value="${e.perNightRate}"></c:out></td>
+                           <td><input type="hidden" name="availability" value="${e.availability}"><c:out value="${e.availability}"></c:out></td>
+               				<td><form action="BookRoom.jsp" method="post">
+							<input type="submit" value="Book Now" name="button">
+							</form>      
+                     </tr>
+                     
+              </c:forEach>
+              
+              </table>
+ 
+</div>
+
+<div id="CheckBookingStatus" class="tabcontent">
+  
+</div>
+
+<div id="Logout" class="tabcontent">
+ 
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

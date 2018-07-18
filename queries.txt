@@ -95,3 +95,478 @@ public class HotelBookingController {
 		return view;
 	}
 }
+----------------------------------------------------------
+
+User
+
+package com.cg.miniproject.bean;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+
+
+@Entity
+@Table(name="users")
+@NamedQueries(@NamedQuery(name="login",query="select user.userName,user.password from User user where user.userName=:uname and user.password=:pwd and user.role=:role"))
+public class User {
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@Column(name="user_id")
+	private String userId;
+	@NotEmpty(message="Cannot be empty")
+	@Pattern(regexp="^[A-Za-z]{1,7}$",message="Only characters are allowed")
+	@Size(max=7)
+	@Column(name="password")
+	private String password;
+	@Column(name="role")
+	@NotEmpty(message="Cannot be empty")
+	private String role;
+	@Column(name="user_name")
+	@NotEmpty(message="Cannot be empty")
+	private String userName;
+	@Column(name="mobile_no")
+	@NotEmpty(message="Cannot be empty")
+	@Pattern(regexp="^[0-9]{10}$",message="Should be of 10 digits only")
+	private String mobileNo;
+	@Column(name="phone")
+	@NotEmpty(message="Cannot be empty")
+	@Pattern(regexp="^[0-9]{10}$",message="Should be of 10 digits only")
+	private String phone;
+	@Column(name="address")
+	@NotEmpty(message="Cannot be empty")
+	private String address;
+	@Column(name="email")
+	@NotEmpty(message="Cannot be empty")
+	private String email;
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getMobileNo() {
+		return mobileNo;
+	}
+
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public User() {
+
+	}
+}
+----------------------
+
+Roomdetails
+
+
+package com.cg.miniproject.bean;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="roomdetails")
+public class RoomDetails {
+	@Column(name="hotel_id")
+	private String hotelId;
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@Column(name="room_id")
+	private String roomId;
+	@Column(name="room_no")
+	private String roomNo;
+	@Column(name="room_type")
+	private String roomType;
+	@Column(name="per_night_rate")
+	private Double perNightRate;
+	@Column(name="availability")
+	private String availability;
+	public String getRoomNo() {
+		return roomNo;
+	}
+
+	public void setRoomNo(String roomNo) {
+		this.roomNo = roomNo;
+	}
+
+
+	public String getHotelId() {
+		return hotelId;
+	}
+
+	public void setHotelId(String hotelId) {
+		this.hotelId = hotelId;
+	}
+
+	public String getRoomId() {
+		return roomId;
+	}
+
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
+	}
+
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
+
+	public Double getPerNightRate() {
+		return perNightRate;
+	}
+
+	public void setPerNightRate(Double perNightRate) {
+		this.perNightRate = perNightRate;
+	}
+
+	public String getAvailability() {
+		return availability;
+	}
+
+	public void setAvailability(String availability) {
+		this.availability = availability;
+	}
+
+	public RoomDetails() {
+
+	}
+}
+----------------------------------
+
+Bookingdetails
+
+
+
+package com.cg.miniproject.bean;
+
+import java.sql.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+
+@Entity
+@Table(name="bookingdetails")
+public class BookingDetails {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@Column(name="booking_id")
+	private String bookingId;
+	@Column(name="room_id")
+	private String roomId;
+	@Column(name="user_id")
+	private String userId;
+	public Date getBookedFrom() {
+		return bookedFrom;
+	}
+
+	public void setBookedFrom(Date bookedFrom) {
+		this.bookedFrom = bookedFrom;
+	}
+
+	public Date getBookedTo() {
+		return bookedTo;
+	}
+
+	public void setBookedTo(Date bookedTo) {
+		this.bookedTo = bookedTo;
+	}
+
+
+
+	@Column(name="booked_from")
+	private Date bookedFrom;
+	@Column(name="booked_to")
+	private Date bookedTo;
+	@Column(name="no_of_adults")
+	private Integer noOfAdults;
+	@Column(name="no_of_children")
+	private Integer noOfChildren;
+	@Column(name="amount")
+	private Double amount;
+	@Transient
+	private String bookedFromDate;
+	@Transient
+	private String bookedToDate;
+	public String getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(String bookingId) {
+		this.bookingId = bookingId;
+	}
+
+	public String getRoomId() {
+		return roomId;
+	}
+
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getBookedFromDate() {
+		return bookedFromDate;
+	}
+
+	public void setBookedFromDate(String bookedFromDate) {
+		this.bookedFromDate = bookedFromDate;
+	}
+
+	public String getBookedToDate() {
+		return bookedToDate;
+	}
+
+	public void setBookedToDate(String bookedToDate) {
+		this.bookedToDate = bookedToDate;
+	}
+
+	public Integer getNoOfAdults() {
+		return noOfAdults;
+	}
+
+	public void setNoOfAdults(Integer noOfAdults) {
+		this.noOfAdults = noOfAdults;
+	}
+
+	public Integer getNoOfChildren() {
+		return noOfChildren;
+	}
+
+	public void setNoOfChildren(Integer noOfChildren) {
+		this.noOfChildren = noOfChildren;
+	}
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	
+
+	public BookingDetails() {
+
+	}
+}
+
+
+-----------------------------
+
+Hotel
+
+package com.cg.miniproject.bean;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="hotel")
+public class Hotel {
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@Column(name="hotel_id")
+	private String hotelId;
+	@Column(name="city")
+	private String city;
+	@Column(name="hotel_name")
+	private String hotelName;
+	@Column(name="address")
+	private String address;
+	@Column(name="description")
+	private String description;
+	@Column(name="avg_rate_per_night")
+	private Double avgRatePerNight;
+	@Column(name="phone_no1")
+	private String phoneNo1;
+	@Column(name="phone_no2")
+	private String phoneNo2;
+	@Column(name="rating")
+	private String rating;
+	@Column(name="email")
+	private String email;
+	@Column(name="fax")
+	private String fax;
+
+	public String getHotelId() {
+		return hotelId;
+	}
+
+	public void setHotelId(String hotelId) {
+		this.hotelId = hotelId;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getHotelName() {
+		return hotelName;
+	}
+
+	public void setHotelName(String hotelName) {
+		this.hotelName = hotelName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Double getAvgRatePerNight() {
+		return avgRatePerNight;
+	}
+
+	public void setAvgRatePerNight(Double avgRatePerNight) {
+		this.avgRatePerNight = avgRatePerNight;
+	}
+
+	public String getPhoneNo1() {
+		return phoneNo1;
+	}
+
+	public void setPhoneNo1(String phoneNo1) {
+		this.phoneNo1 = phoneNo1;
+	}
+
+	public String getPhoneNo2() {
+		return phoneNo2;
+	}
+
+	public void setPhoneNo2(String phoneNo2) {
+		this.phoneNo2 = phoneNo2;
+	}
+
+	public String getRating() {
+		return rating;
+	}
+
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getFax() {
+		return fax;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+
+	public Hotel() {
+
+	}
+}

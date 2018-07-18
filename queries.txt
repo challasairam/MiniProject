@@ -611,3 +611,16 @@ public ModelAndView getLoginDetails(
 		}
 		return view;
 	}
+--------------
+if (user.getRole() == "Admin") {
+					view.setViewName("DisplayForAdmin");	
+				} else {
+					view.setViewName("DisplayForUser");
+					ArrayList<Hotel> hotels = service.getHotelList();
+					if (!hotels.isEmpty()) {
+						view.addObject("hotelList", hotels);
+					} else {
+						String msg = "No hotels are available for Booking!";
+						view.addObject("msg", msg);
+					}
+				}

@@ -570,3 +570,15 @@ public class Hotel {
 
 	}
 }
+-------------------------------
+	public boolean login(User user) throws HotelException {
+
+		Query query=entityManager.createNamedQuery("login");
+		query.setParameter("uname", user.getUserName());
+		query.setParameter("pwd", user.getPassword());
+		query.setParameter("role", user.getRole());
+		List<User> list=query.getResultList();
+		if(!list.isEmpty())
+			b=true;
+		return b;
+	}

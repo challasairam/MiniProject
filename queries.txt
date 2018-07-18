@@ -35,3 +35,63 @@ log4j.appender.logfile.MaxBackupIndex=3
 log4j.appender.logfile.layout=org.apache.log4j.PatternLayout
 log4j.appender.logfile.layout.ConversionPattern=%d %p [%c] - %m%n
 log4j.appender.logfile.layout.ConversionPattern=%d{yyyy-MM-dd}-%t-%-5p-%-10c:%m%n
+----------------------------------------------------------
+package com.cg.miniproject.controller;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cg.miniproject.bean.User;
+import com.cg.miniproject.exception.HotelException;
+import com.cg.miniproject.service.IHotelBookingService;
+
+@Controller
+public class HotelBookingController {
+	@Autowired
+	IHotelBookingService service;
+
+	@RequestMapping("index")
+	public ModelAndView getHomePage() {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("Home");
+		return view;
+	}
+
+	@RequestMapping("login")
+	public ModelAndView getLoginPage() {
+		ModelAndView view = new ModelAndView("Login", "user", new User());
+		return view;
+	}
+
+	@RequestMapping("register")
+	public ModelAndView getRegisterPage() {
+		ModelAndView view = new ModelAndView("Login", "user", new User());
+		return view;
+	}
+
+	@RequestMapping("logindetails")
+	public ModelAndView getLoginDetails(
+			@Valid @ModelAttribute("user") User user, BindingResult result)
+			throws HotelException {
+		ModelAndView view = new ModelAndView();
+		if (result.hasErrors()) {
+			view.setViewName("Login");
+		} else {
+			boolean res = service.login(user);
+			if (res)
+				view.setViewName("ListOfHotels");
+			else {
+				view.setViewName("Login");
+				String msg = "Enter valid credentials!";
+				view.addObject("msg", msg);
+			}
+		}
+		return view;
+	}
+}
